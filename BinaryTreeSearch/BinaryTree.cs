@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace BinaryTreeSearch
 {
-    public class BinaryTree
+    public class BinaryTreeNode
     {
         private int nodeValue;
-        private int leftNode;
-        private int rightNode;
+        private BinaryTreeNode leftNode;
+        private BinaryTreeNode rightNode;
 
-        public BinaryTree(int nodeValue)
+        public BinaryTreeNode(int nodeValue)
         {
             this.nodeValue = nodeValue;
         }
@@ -23,16 +23,21 @@ namespace BinaryTreeSearch
             set { nodeValue = value; }
         }
 
-        public int LeftNode
+        public BinaryTreeNode LeftNode
         {
             get => leftNode;
             set { leftNode = value; }
         }
 
-        public int RightNode
+        public BinaryTreeNode RightNode
         {
             get => rightNode;
             set { rightNode = value; }
+        }
+
+        public void AddNode(int nodeValue)
+        {
+            //TODO:BorisoglebskiyIK - develop method wihch add the node to BinaryTree
         }
     }
 }
