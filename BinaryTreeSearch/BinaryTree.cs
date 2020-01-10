@@ -6,38 +6,64 @@ using System.Threading.Tasks;
 
 namespace BinaryTreeSearch
 {
-    public class BinaryTreeNode
+    public class BinaryTree: NotifyPropertyBase
     {
-        private int nodeValue;
-        private BinaryTreeNode leftNode;
-        private BinaryTreeNode rightNode;
+        private BinaryTreeNode root;
+        private int nodeCount;
 
-        public BinaryTreeNode(int nodeValue)
+        public BinaryTreeNode Root
         {
-            this.nodeValue = nodeValue;
+            get => root;
+            set
+            {
+                if (value != root)
+                {
+                    root = value;
+                    OnPropertyChanged("Root");
+                }
+            }
         }
 
-        public int NodeValue
-        {
-            get => nodeValue;
-            set { nodeValue = value; }
-        }
-
-        public BinaryTreeNode LeftNode
-        {
-            get => leftNode;
-            set { leftNode = value; }
-        }
-
-        public BinaryTreeNode RightNode
-        {
-            get => rightNode;
-            set { rightNode = value; }
-        }
+        public int NodeCount => nodeCount;
 
         public void AddNode(int nodeValue)
         {
-            //TODO:BorisoglebskiyIK - develop method wihch add the node to BinaryTree
+            nodeCount++;
+
+            if (Root == null)
+            {
+                Root = new BinaryTreeNode(nodeValue);
+            }
+            else
+            {
+                AddNode(Root, nodeValue);
+            }
+        }
+
+        private void AddNode(BinaryTreeNode root, int nodeValue)
+        {
+            if (nodeValue < Root.NodeValue)
+            {
+                if (Root.LeftNode == null)
+                {
+                    Root.LeftNode = new BinaryTreeNode(nodeValue);
+                }
+                else
+                {
+                    AddNode(Root.LeftNode, nodeValue);
+                }
+            }
+            else
+            {
+                if (Root.RightNode == null)
+                {
+                    Root.RightNode = new BinaryTreeNode(nodeValue);
+                }
+                else
+                {
+                    AddNode(Root.RightNode, nodeValue);
+                }
+            }
         }
     }
 }
