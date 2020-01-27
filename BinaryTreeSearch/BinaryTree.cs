@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BinaryTreeSearch
+﻿namespace BinaryTreeSearch
 {
-    public class BinaryTree: NotifyPropertyBase
+    public enum eTraversalType
+    {
+        Preorder,
+        Inorder,
+        Postorder
+    }
+
+    public class BinaryTree : NotifyPropertyBase
     {
         private BinaryTreeNode root;
         private int nodeCount;
@@ -42,28 +43,84 @@ namespace BinaryTreeSearch
 
         private void AddNode(BinaryTreeNode root, int nodeValue)
         {
-            if (nodeValue < Root.NodeValue)
+            if (nodeValue < root.NodeValue)
             {
-                if (Root.LeftNode == null)
+                if (root.LeftNode == null)
                 {
-                    Root.LeftNode = new BinaryTreeNode(nodeValue);
+                    root.LeftNode = new BinaryTreeNode(nodeValue);
                 }
                 else
                 {
-                    AddNode(Root.LeftNode, nodeValue);
+                    AddNode(root.LeftNode, nodeValue);
                 }
             }
             else
             {
-                if (Root.RightNode == null)
+                if (root.RightNode == null)
                 {
-                    Root.RightNode = new BinaryTreeNode(nodeValue);
+                    root.RightNode = new BinaryTreeNode(nodeValue);
                 }
                 else
                 {
-                    AddNode(Root.RightNode, nodeValue);
+                    AddNode(root.RightNode, nodeValue);
                 }
             }
+        }
+
+        public string Traversal(eTraversalType traversalType)
+        {
+            string SequenceNodes = string.Empty;
+
+            switch (traversalType)
+            {
+                case eTraversalType.Preorder:
+                    TraversalPreorder(Root, ref SequenceNodes);
+                    break;
+                case eTraversalType.Inorder:
+                    TraversalInorder(Root, ref SequenceNodes);
+                    break;
+                case eTraversalType.Postorder:
+                    TraversalPostorder(Root, ref SequenceNodes);
+                    break;
+                default:
+                    break;
+            }
+
+            return SequenceNodes;
+        }
+
+        private void TraversalPreorder(BinaryTreeNode node, ref string SequenceNodes)
+        {
+            if (node == null)
+                return;
+
+            SequenceNodes += " " + node;
+
+            TraversalPreorder(node.LeftNode, ref SequenceNodes);
+            TraversalPreorder(node.RightNode, ref SequenceNodes);
+        }
+
+        private void TraversalInorder(BinaryTreeNode node, ref string SequenceNodes)
+        {
+            if (node == null)
+                return;
+
+            TraversalInorder(node.LeftNode, ref SequenceNodes);
+
+            SequenceNodes += " " + node;
+
+            TraversalInorder(node.RightNode, ref SequenceNodes);
+        }
+
+        private void TraversalPostorder(BinaryTreeNode node, ref string SequenceNodes)
+        {
+            if (node == null)
+                return;
+
+            TraversalPostorder(node.LeftNode, ref SequenceNodes);
+            TraversalPostorder(node.RightNode, ref SequenceNodes);
+
+            SequenceNodes += " " + node;
         }
     }
 }

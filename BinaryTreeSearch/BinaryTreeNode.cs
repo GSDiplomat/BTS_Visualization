@@ -56,6 +56,9 @@ namespace BinaryTreeSearch
             }
         }
 
-
+        public override string ToString()
+        {
+            return NodeValue.ToString();
+        }
     }
 }
