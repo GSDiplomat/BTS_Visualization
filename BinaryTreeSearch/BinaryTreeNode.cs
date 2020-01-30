@@ -8,23 +8,23 @@ namespace BinaryTreeSearch
 {
     public class BinaryTreeNode: NotifyPropertyBase
     {
-        private int nodeValue;
-        private BinaryTreeNode leftNode;
-        private BinaryTreeNode rightNode;
+        private int _nodeValue;
+        private BinaryTreeNode _leftNode;
+        private BinaryTreeNode _rightNode;
 
         public BinaryTreeNode(int nodeValue)
         {
-            this.nodeValue = nodeValue;
+            _nodeValue = nodeValue;
         }
 
         public int NodeValue
         {
-            get => nodeValue;
+            get => _nodeValue;
             set
             {
-                if (value != nodeValue)
+                if (value != _nodeValue)
                 {
-                    nodeValue = value;
+                    _nodeValue = value;
                     OnPropertyChanged("NodeValue");
                 }
             }
@@ -32,12 +32,12 @@ namespace BinaryTreeSearch
 
         public BinaryTreeNode LeftNode
         {
-            get => leftNode;
+            get => _leftNode;
             set
             {
-                if (value != leftNode)
+                if (value != _leftNode)
                 {
-                    leftNode = value;
+                    _leftNode = value;
                     OnPropertyChanged("LeftNode");
                 }
             }
@@ -45,20 +45,17 @@ namespace BinaryTreeSearch
 
         public BinaryTreeNode RightNode
         {
-            get => rightNode;
+            get => _rightNode;
             set
             {
-                if (value != rightNode)
+                if (value != _rightNode)
                 {
-                    rightNode = value;
+                    _rightNode = value;
                     OnPropertyChanged("RightNode");
                 }
             }
         }
 
-        public override string ToString()
-        {
-            return NodeValue.ToString();
-        }
+        public override string ToString() => NodeValue.ToString();
     }
 }

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BinaryTree.cs" />
     <Compile Include="BinaryTreeNode.cs" />
+    <Compile Include="eTraversalType.cs" />
     <Compile Include="NotifyPropertyBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

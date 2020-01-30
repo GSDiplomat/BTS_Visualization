@@ -1,35 +1,28 @@
 ﻿namespace BinaryTreeSearch
 {
-    public enum eTraversalType
-    {
-        Preorder,
-        Inorder,
-        Postorder
-    }
-
     public class BinaryTree : NotifyPropertyBase
     {
-        private BinaryTreeNode root;
-        private int nodeCount;
+        private BinaryTreeNode _root;
+        private int _nodeCount;
 
         public BinaryTreeNode Root
         {
-            get => root;
+            get => _root;
             set
             {
-                if (value != root)
+                if (value != _root)
                 {
-                    root = value;
+                    _root = value;
                     OnPropertyChanged("Root");
                 }
             }
         }
 
-        public int NodeCount => nodeCount;
+        public int NodeCount => _nodeCount;
 
         public void AddNode(int nodeValue)
         {
-            nodeCount++;
+            _nodeCount++;
 
             if (Root == null)
             {
@@ -69,24 +62,22 @@
 
         public string Traversal(eTraversalType traversalType)
         {
-            string SequenceNodes = string.Empty;
+            var sequenceNodes = string.Empty;
 
             switch (traversalType)
             {
                 case eTraversalType.Preorder:
-                    TraversalPreorder(Root, ref SequenceNodes);
+                    TraversalPreorder(Root, ref sequenceNodes);
                     break;
                 case eTraversalType.Inorder:
-                    TraversalInorder(Root, ref SequenceNodes);
+                    TraversalInorder(Root, ref sequenceNodes);
                     break;
                 case eTraversalType.Postorder:
-                    TraversalPostorder(Root, ref SequenceNodes);
-                    break;
-                default:
+                    TraversalPostorder(Root, ref sequenceNodes);
                     break;
             }
 
-            return SequenceNodes;
+            return sequenceNodes;
         }
 
         private void TraversalPreorder(BinaryTreeNode node, ref string SequenceNodes)
