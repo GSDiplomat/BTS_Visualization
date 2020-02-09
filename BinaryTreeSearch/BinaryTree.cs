@@ -130,7 +130,7 @@
             }
         }
 
-        private BinaryTreeNode FindNode(int nodeValue)
+        public BinaryTreeNode FindNode(int nodeValue)
         {
             BinaryTreeNode nodeSearch = Root;
 
@@ -138,11 +138,11 @@
             {
                 if (nodeSearch.NodeValue < nodeValue)
                 {
-                    nodeSearch = nodeSearch.LeftNode;
-                }
-                else if (nodeSearch.NodeValue >= nodeValue)
-                {
                     nodeSearch = nodeSearch.RightNode;
+                }
+                else if (nodeSearch.NodeValue > nodeValue)
+                {
+                    nodeSearch = nodeSearch.LeftNode;
                 }
                 else
                 {
