@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace BinaryTreeSearch
 {
-    public class BinaryTreeNode: NotifyPropertyBase
+    public class BinaryTreeNode: NotifyPropertyBase, IComparable
     {
         private int _nodeValue;
         private BinaryTreeNode _leftNode;
         private BinaryTreeNode _rightNode;
+        private BinaryTreeNode _parentNode;
 
-        public BinaryTreeNode(int nodeValue)
+        public BinaryTreeNode(BinaryTreeNode _parentNode, int _nodeValue)
         {
-            _nodeValue = nodeValue;
+            this._nodeValue = _nodeValue;
+            this._parentNode = _parentNode;
+        }
+
+        public BinaryTreeNode ParentNode
+        {
+            get => _parentNode;
+            set => value = _parentNode;
         }
 
         public int NodeValue
@@ -57,5 +65,44 @@ namespace BinaryTreeSearch
         }
 
         public override string ToString() => NodeValue.ToString();
+
+        public static bool operator <(BinaryTreeNode firstNode, BinaryTreeNode secondNode)
+        {
+            return (firstNode.CompareTo(secondNode) < 0);
+        }
+
+        public static bool operator >(BinaryTreeNode firstNode, BinaryTreeNode secondNode)
+        {
+            return (firstNode.CompareTo(secondNode) > 0);
+        }
+
+        public static bool operator <=(BinaryTreeNode firstNode, BinaryTreeNode secondNode)
+        {
+            return (firstNode.CompareTo(secondNode) <= 0);
+        }
+
+        public static bool operator >=(BinaryTreeNode firstNode, BinaryTreeNode secondNode)
+        {
+            return (firstNode.CompareTo(secondNode) >= 0);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (!(obj is BinaryTreeNode)) throw new ArgumentException();
+
+            var treeNode = (BinaryTreeNode) obj;
+
+            if (NodeValue > treeNode.NodeValue)
+            {
+                return 1;
+            }
+
+            if (NodeValue < treeNode.NodeValue)
+            {
+                return -1;
+            }
+
+            return 0;
+        }
     }
 }

@@ -18,7 +18,7 @@
             }
         }
 
-        public int NodeCount => _nodeCount;
+        public int NodeCount => _nodeCount; 
 
         public void AddNode(int nodeValue)
         {
@@ -26,7 +26,7 @@
 
             if (Root == null)
             {
-                Root = new BinaryTreeNode(nodeValue);
+                Root = new BinaryTreeNode(null, nodeValue);
             }
             else
             {
@@ -40,7 +40,7 @@
             {
                 if (root.LeftNode == null)
                 {
-                    root.LeftNode = new BinaryTreeNode(nodeValue);
+                    root.LeftNode = new BinaryTreeNode(root, nodeValue);
                 }
                 else
                 {
@@ -51,7 +51,7 @@
             {
                 if (root.RightNode == null)
                 {
-                    root.RightNode = new BinaryTreeNode(nodeValue);
+                    root.RightNode = new BinaryTreeNode(root, nodeValue);
                 }
                 else
                 {
@@ -60,6 +60,100 @@
             }
         }
 
+        public void RemoveNode(BinaryTreeNode node)
+        {
+            if (node.ParentNode == null)
+            {
+                Root = node.LeftNode;
+
+                if (Root != null)
+                {
+                    Root.ParentNode = null;
+                }
+            }
+
+            if (node.RightNode == null)
+            {
+                if (node.ParentNode != null)
+                {
+                    if (node.ParentNode > node)
+                    {
+                        node.ParentNode.LeftNode = node.LeftNode;
+                    }
+                    else
+                    {
+                        node.ParentNode.RightNode = node.LeftNode;
+                    }
+                }
+            }
+            else if (node.RightNode.LeftNode == null)
+            {
+                node.RightNode.LeftNode = node.LeftNode;
+
+                if (node.ParentNode != null)
+                {
+                    if (node.ParentNode > node)
+                    {
+                        node.ParentNode.LeftNode = node.RightNode;
+                    }
+                    else
+                    {
+                        node.ParentNode.RightNode = node.RightNode;
+                    }
+                }
+            }
+            else
+            {
+                var leftBottomNode = node.RightNode.LeftNode;
+
+                while (leftBottomNode.LeftNode != null)
+                {
+                    leftBottomNode = leftBottomNode.LeftNode;
+                }
+
+                leftBottomNode.ParentNode.LeftNode = leftBottomNode.RightNode;
+
+                leftBottomNode.LeftNode = node.LeftNode;
+                leftBottomNode.RightNode = node.RightNode;
+
+                if (node.ParentNode != null)
+                {
+                    if (node.ParentNode > node)
+                    {
+                        node.ParentNode.LeftNode = leftBottomNode;
+                    }
+                    else
+                    {
+                        node.ParentNode.RightNode = leftBottomNode;
+                    }
+                }
+            }
+        }
+
+        private BinaryTreeNode FindNode(int nodeValue)
+        {
+            BinaryTreeNode nodeSearch = Root;
+
+            while (nodeSearch != null)
+            {
+                if (nodeSearch.NodeValue < nodeValue)
+                {
+                    nodeSearch = nodeSearch.LeftNode;
+                }
+                else if (nodeSearch.NodeValue >= nodeValue)
+                {
+                    nodeSearch = nodeSearch.RightNode;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return nodeSearch;
+        }
+
+        #region Traversal of binary tree
         public string Traversal(eTraversalType traversalType)
         {
             var sequenceNodes = string.Empty;
@@ -80,38 +174,39 @@
             return sequenceNodes;
         }
 
-        private void TraversalPreorder(BinaryTreeNode node, ref string SequenceNodes)
+        private void TraversalPreorder(BinaryTreeNode node, ref string sequenceNodes)
         {
             if (node == null)
                 return;
 
-            SequenceNodes += " " + node;
+            sequenceNodes += " " + node;
 
-            TraversalPreorder(node.LeftNode, ref SequenceNodes);
-            TraversalPreorder(node.RightNode, ref SequenceNodes);
+            TraversalPreorder(node.LeftNode, ref sequenceNodes);
+            TraversalPreorder(node.RightNode, ref sequenceNodes);
         }
 
-        private void TraversalInorder(BinaryTreeNode node, ref string SequenceNodes)
+        private void TraversalInorder(BinaryTreeNode node, ref string sequenceNodes)
         {
             if (node == null)
                 return;
 
-            TraversalInorder(node.LeftNode, ref SequenceNodes);
+            TraversalInorder(node.LeftNode, ref sequenceNodes);
 
-            SequenceNodes += " " + node;
+            sequenceNodes += " " + node;
 
-            TraversalInorder(node.RightNode, ref SequenceNodes);
+            TraversalInorder(node.RightNode, ref sequenceNodes);
         }
 
-        private void TraversalPostorder(BinaryTreeNode node, ref string SequenceNodes)
+        private void TraversalPostorder(BinaryTreeNode node, ref string sequenceNodes)
         {
             if (node == null)
                 return;
 
-            TraversalPostorder(node.LeftNode, ref SequenceNodes);
-            TraversalPostorder(node.RightNode, ref SequenceNodes);
+            TraversalPostorder(node.LeftNode, ref sequenceNodes);
+            TraversalPostorder(node.RightNode, ref sequenceNodes);
 
-            SequenceNodes += " " + node;
+            sequenceNodes += " " + node;
         }
+        #endregion
     }
 }
