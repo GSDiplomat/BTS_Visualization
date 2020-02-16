@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryTreeSearchTests", "Bi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTSVisualization", "BTSVisualization\BTSVisualization.csproj", "{2EA23630-B7B7-4267-8A6C-036811410284}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTSViewModel", "BTSViewModel\BTSViewModel.csproj", "{51778E6C-6166-42F1-984A-85E2FE6BC557}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2EA23630-B7B7-4267-8A6C-036811410284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EA23630-B7B7-4267-8A6C-036811410284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EA23630-B7B7-4267-8A6C-036811410284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51778E6C-6166-42F1-984A-85E2FE6BC557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51778E6C-6166-42F1-984A-85E2FE6BC557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51778E6C-6166-42F1-984A-85E2FE6BC557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51778E6C-6166-42F1-984A-85E2FE6BC557}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
