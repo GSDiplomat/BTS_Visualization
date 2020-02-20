@@ -1,16 +1,12 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BinaryTreeSearch;
+﻿using BinaryTreeSearch;
 
 namespace BTSViewModel
 {
-    public class BTSContext: NotifyPropertyBase
+    public class BTSContext : NotifyPropertyBase
     {
         private BinaryTree _binaryTree;
+        private BTSCommand _addNodeCommand;
+        private BTSCommand _removeNodeCommand;
 
         public BTSContext()
         {
@@ -29,5 +25,22 @@ namespace BTSViewModel
                 }
             }
         }
+
+        public BTSCommand AddNodeCommand => _addNodeCommand ??
+                                            (_addNodeCommand = new BTSCommand(
+                                                obj =>
+                                                {
+                                                    BinaryTree.AddNode((int)obj);
+                                                },
+                                                obj => obj != null
+                                            ));
+
+
+        public BTSCommand RemoveNodeCommand => _removeNodeCommand ??
+                                               (_removeNodeCommand = new BTSCommand(
+                                                   obj => BinaryTree.RemoveNode(obj as BinaryTreeNode),
+                                                   obj => obj != null
+                                               ));
+
     }
 }
