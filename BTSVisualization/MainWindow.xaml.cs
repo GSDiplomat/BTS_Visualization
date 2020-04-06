@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BTSViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,13 @@ namespace BTSVisualization
     /// </summary>
     public partial class MainWindow : Window
     {
+        BTSContext btsContext = new BTSContext();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = btsContext;
         }
     }
 }

@@ -20,5 +20,7 @@
                 <Button Content="Добавить" Margin="2" Width="70" HorizontalAlignment="Left"/>
             </StackPanel>
         </GroupBox>
+
+        <local:BinaryTreeView Grid.Column="1" Data="{Binding BinaryTree.Root}"></local:BinaryTreeView>
     </Grid>
 </Window>

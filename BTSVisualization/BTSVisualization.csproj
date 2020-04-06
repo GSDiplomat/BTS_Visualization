@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="BinaryTreeControl\BinaryTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BinaryTreeControl\BTSArrowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -70,6 +74,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BinaryTreeControl\BinaryTreeView.xaml.cs">
+      <DependentUpon>BinaryTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BinaryTreeControl\BTSArrowView.xaml.cs">
       <DependentUpon>BTSArrowView.xaml</DependentUpon>
@@ -108,6 +115,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BinaryTreeSearch\BinaryTreeSearch.csproj">
+      <Project>{088F215B-C291-47C5-8367-77CBADAFB842}</Project>
+      <Name>BinaryTreeSearch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BTSViewModel\BTSViewModel.csproj">
+      <Project>{51778E6C-6166-42F1-984A-85E2FE6BC557}</Project>
+      <Name>BTSViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
