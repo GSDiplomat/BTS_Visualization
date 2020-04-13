@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BinaryTreeSearch.Tests
 {
-    [TestClass()]
+    [TestFixture()]
     public class BinaryTreeTests
     {
         Random rnd = new Random();
@@ -15,8 +15,8 @@ namespace BinaryTreeSearch.Tests
         List<int> Items = new List<int>();
         List<int> Sorted = new List<int>();
 
-        [TestInitialize]
-        public void Init()
+        [SetUp]
+        public void Setup()
         {
             CorrectSequenceNodes = string.Empty;
             SequenceNodes = string.Empty;
@@ -35,8 +35,8 @@ namespace BinaryTreeSearch.Tests
             }
         }
 
-        [TestMethod()]
-        public void TraversalTest()
+        [Test]
+        public void TraversalInorderTest()
         {
             // arrange
             var binaryTree = new BinaryTree();
@@ -53,36 +53,32 @@ namespace BinaryTreeSearch.Tests
             Assert.AreEqual(CorrectSequenceNodes, SequenceNodes);
         }
 
-        [TestMethod()]
-        public void RemovedNodeTest()
+        [Test]
+        public void GetMaxDepthTest()
         {
             // arrange
             var binaryTree = new BinaryTree();
 
-            foreach (var item in Items)
-            {
-                binaryTree.AddNode(item);
-            }
+            binaryTree.AddNode(100);
+            binaryTree.AddNode(150);
+            binaryTree.AddNode(200);
+            binaryTree.AddNode(170);
+            binaryTree.AddNode(210);
+            binaryTree.AddNode(70);
+            binaryTree.AddNode(50);
+            binaryTree.AddNode(90);
+            binaryTree.AddNode(10);
+            binaryTree.AddNode(55);
+            binaryTree.AddNode(60);
+            binaryTree.AddNode(58);
+            binaryTree.AddNode(65);
 
-            //act
-            var removingNode = binaryTree.FindNode(Items[rnd.Next(0, Items.Count - 1)]);
-
-            binaryTree.RemoveNode(removingNode);
-
-            SequenceNodes = binaryTree.Traversal(eTraversalType.Inorder);
-
-            //form correct sequence
-            Sorted.Remove(removingNode.NodeValue);
-
-            CorrectSequenceNodes = string.Empty;
-
-            foreach (var item in Sorted)
-            {
-                CorrectSequenceNodes += " " + item;
-            }
+            int expectDepth = 6;
+            // act
+            int maxDepth = binaryTree.GetMaxDepth();
 
             // assert
-            Assert.AreEqual(CorrectSequenceNodes, SequenceNodes);
+            Assert.AreEqual(expectDepth, maxDepth);
         }
     }
 }
