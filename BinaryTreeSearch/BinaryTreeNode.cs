@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace BinaryTreeSearch
 {
-    public class BinaryTreeNode: NotifyPropertyBase, IComparable
+    public class BinaryTreeNode : NotifyPropertyBase, IComparable
     {
         private int _nodeValue;
         private BinaryTreeNode _leftNode;
         private BinaryTreeNode _rightNode;
         private BinaryTreeNode _parentNode;
 
-        public BinaryTreeNode(BinaryTreeNode _parentNode, int _nodeValue)
+        public BinaryTreeNode(BinaryTreeNode parentNode, int nodeValue)
         {
-            this._nodeValue = _nodeValue;
-            this._parentNode = _parentNode;
+            _nodeValue = nodeValue;
+            _parentNode = parentNode;
         }
 
         public BinaryTreeNode ParentNode
@@ -33,7 +33,7 @@ namespace BinaryTreeSearch
                 if (value != _nodeValue)
                 {
                     _nodeValue = value;
-                    OnPropertyChanged("NodeValue");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -46,7 +46,7 @@ namespace BinaryTreeSearch
                 if (value != _leftNode)
                 {
                     _leftNode = value;
-                    OnPropertyChanged("LeftNode");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace BinaryTreeSearch
                 if (value != _rightNode)
                 {
                     _rightNode = value;
-                    OnPropertyChanged("RightNode");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace BinaryTreeSearch
         {
             if (!(obj is BinaryTreeNode)) throw new ArgumentException();
 
-            var treeNode = (BinaryTreeNode) obj;
+            var treeNode = (BinaryTreeNode)obj;
 
             if (NodeValue > treeNode.NodeValue)
             {

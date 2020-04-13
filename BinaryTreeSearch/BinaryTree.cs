@@ -1,9 +1,12 @@
-﻿namespace BinaryTreeSearch
+﻿using System;
+
+namespace BinaryTreeSearch
 {
     public class BinaryTree : NotifyPropertyBase
     {
         private BinaryTreeNode _root;
         private int _nodeCount;
+        private int _maxDepth;
 
         public BinaryTreeNode Root
         {
@@ -13,12 +16,26 @@
                 if (value != _root)
                 {
                     _root = value;
-                    OnPropertyChanged("Root");
+                    OnPropertyChanged();
                 }
             }
         }
 
-        public int NodeCount => _nodeCount; 
+        public int NodeCount => _nodeCount;
+
+        public int MaxDepth
+        {
+            get => GetMaxDepth(_root);
+            set
+            {
+                if (value != _maxDepth)
+                {
+                    _maxDepth = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public void AddNode(int nodeValue)
         {
@@ -32,6 +49,8 @@
             {
                 AddNode(Root, nodeValue);
             }
+
+            MaxDepth = GetMaxDepth();
         }
 
         private void AddNode(BinaryTreeNode root, int nodeValue)
@@ -151,6 +170,20 @@
             }
 
             return nodeSearch;
+        }
+
+
+        public int GetMaxDepth()
+        {
+            return Math.Max(GetMaxDepth(_root.LeftNode), GetMaxDepth(_root.RightNode)) + 1;
+        }
+
+        public int GetMaxDepth(BinaryTreeNode node)
+        {
+            if (node == null)
+                return 0;
+            
+            return Math.Max(GetMaxDepth(node.LeftNode), GetMaxDepth(node.RightNode)) + 1;
         }
 
         #region Traversal of binary tree
