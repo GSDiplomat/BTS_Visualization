@@ -1,4 +1,5 @@
 ﻿using BinaryTreeSearch;
+using BTSVisualization.BinaryTreeControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,6 @@ namespace BTSVisualization
         private static void BinaryTreeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             ChangeGrid((sender as BinaryTreeView).TreeGrid, (int)e.OldValue, (int)e.NewValue);
-
-
         }
 
         private static void ChangeGrid(Grid grid, int oldValue, int newValue)
@@ -55,40 +54,37 @@ namespace BTSVisualization
                 {
                     grid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                    Button btn = new Button();
-                    btn.Content = "test";
-                    Grid.SetRow(btn, newValue - 1);
-                    Grid.SetColumn(btn, i);
-                    grid.Children.Add(btn);
+                    BTSNodeView node = new BTSNodeView();
+                    Grid.SetRow(node, 2 * (newValue - 1));
+                    Grid.SetColumn(node, i);
+                    grid.Children.Add(node);
                 }
+
+                ReplaceNodes(grid, newValue);
             }
         }
 
         private static void ReplaceNodes(Grid grid, int depth)
         {
-        }
+            List<UIElement> rowNodes;
 
-        public static DataGridCell GetCell(Grid dataGrid, int row, int column)
-        {
-            RowDefinition rowContainer = GetRow(dataGrid, row);
-            if (rowContainer != null)
+            for (int i = 0; i < 2 * depth; i += 2)
             {
-                DataGridCellsPresenter presenter = GetVisualChild<DataGridCellsPresenter>(rowContainer);
+                rowNodes = grid.Children.Cast<UIElement>().Where(item => Grid.GetRow(item) == i).ToList();
 
-                // try to get the cell but it may possibly be virtualized
-                DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
-                if (cell == null)
+                int colCounter = 0;
+
+                foreach (var node in rowNodes)
                 {
-                    // now try to bring into view and retreive the cell
-                    dataGrid.ScrollIntoView(rowContainer, dataGrid.Columns[column]);
+                    int row = ((Grid.GetRow(node) + 1) + 2) / 2;
+                    int index = rowNodes.IndexOf(node);
+                    int nodeNewRow = (int)(Math.Pow(2, depth - row) * (1 + 2 * index));
 
-                    cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
+                    colCounter += nodeNewRow;
+
+                    Grid.SetColumn(node, nodeNewRow);
                 }
-
-                return cell;
             }
-
-            return null;
         }
     }
 }

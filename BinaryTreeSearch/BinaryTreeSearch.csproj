@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="BinaryTree.cs" />
     <Compile Include="BinaryTreeNode.cs" />
+    <Compile Include="ChangeNotifications\ChangeListener.cs" />
+    <Compile Include="ChangeNotifications\InnerChangeListener.cs" />
     <Compile Include="eTraversalType.cs" />
-    <Compile Include="NotifyPropertyBase.cs" />
+    <Compile Include="ChangeNotifications\NotifyPropertyBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

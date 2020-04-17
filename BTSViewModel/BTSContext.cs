@@ -1,4 +1,7 @@
 ﻿using BinaryTreeSearch;
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace BTSViewModel
 {
@@ -12,6 +15,15 @@ namespace BTSViewModel
         public BTSContext()
         {
             _binaryTree = new BinaryTree();
+
+            var personChangeListener = ChangeListener.Create(_binaryTree);
+
+            personChangeListener.PropertyChanged += new PropertyChangedEventHandler(value_PropertyChanged);
+        }
+
+        private void value_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("Changed Property: " + e.PropertyName);
         }
 
         public BinaryTree BinaryTree

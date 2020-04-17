@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace BinaryTreeSearch
         {
             _nodeValue = nodeValue;
             _parentNode = parentNode;
+
+            Debug.WriteLine("BinaryTreeNode");
         }
 
         public BinaryTreeNode ParentNode
