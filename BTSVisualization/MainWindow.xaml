@@ -16,11 +16,11 @@
         <GroupBox Header="Добавление узла">
             <StackPanel>
                 <TextBlock Text="Введите число для узла дерева" Margin="2" />
-                <TextBox Margin="2" Width="70" HorizontalAlignment="Left"/>
-                <Button Content="Добавить" Margin="2" Width="70" HorizontalAlignment="Left"/>
+                <TextBox Margin="2" Width="70" HorizontalAlignment="Left" Text="{Binding CurrentNode.NodeValue}"/>
+                <Button Content="Добавить" Margin="2" Width="70" HorizontalAlignment="Left" Command="{Binding AddNodeCommand}" CommandParameter="{Binding CurrentNode}"/>
             </StackPanel>
         </GroupBox>
 
-        <local:BinaryTreeView Grid.Column="1" Data="{Binding BinaryTree.Root}"></local:BinaryTreeView>
+        <local:BinaryTreeView Grid.Column="1" BinaryTreeData="{Binding BinaryTree.MaxDepth}"></local:BinaryTreeView>
     </Grid>
 </Window>

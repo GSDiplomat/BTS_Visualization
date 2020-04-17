@@ -25,29 +25,70 @@ namespace BTSVisualization
         {
             InitializeComponent();
         }
-        public BinaryTree BinaryTree
+
+        public int BinaryTreeData
         {
-            get { return (BinaryTree)GetValue(BinaryTreeProperty); }
+            get { return (int)GetValue(BinaryTreeProperty); }
             set { SetValue(BinaryTreeProperty, value); }
         }
 
         public static readonly DependencyProperty BinaryTreeProperty =
-            DependencyProperty.Register("Data", typeof(BinaryTree), typeof(BinaryTreeView), new PropertyMetadata(new BinaryTree(), BinaryTreeChanged));
-
-        static int num = 0;
+            DependencyProperty.Register("BinaryTreeData", typeof(int), typeof(BinaryTreeView), new PropertyMetadata(0, BinaryTreeChanged));
 
         private static void BinaryTreeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            BinaryTreeView binaryTreeView = new BinaryTreeView();
-            binaryTreeView.TreeGrid.RowDefinitions.Add(new RowDefinition());
+            ChangeGrid((sender as BinaryTreeView).TreeGrid, (int)e.OldValue, (int)e.NewValue);
 
-            Button btn = new Button();
-            btn.Content = "test";
-            Grid.SetRow(btn, num);
 
-            binaryTreeView.TreeGrid.Children.Add(btn);
+        }
 
-            num++;
+        private static void ChangeGrid(Grid grid, int oldValue, int newValue)
+        {
+            if (oldValue < newValue)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    grid.RowDefinitions.Add(new RowDefinition());
+                }
+
+                for (int i = 1; i < Math.Pow(2, newValue); i += 2)
+                {
+                    grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                    Button btn = new Button();
+                    btn.Content = "test";
+                    Grid.SetRow(btn, newValue - 1);
+                    Grid.SetColumn(btn, i);
+                    grid.Children.Add(btn);
+                }
+            }
+        }
+
+        private static void ReplaceNodes(Grid grid, int depth)
+        {
+        }
+
+        public static DataGridCell GetCell(Grid dataGrid, int row, int column)
+        {
+            RowDefinition rowContainer = GetRow(dataGrid, row);
+            if (rowContainer != null)
+            {
+                DataGridCellsPresenter presenter = GetVisualChild<DataGridCellsPresenter>(rowContainer);
+
+                // try to get the cell but it may possibly be virtualized
+                DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
+                if (cell == null)
+                {
+                    // now try to bring into view and retreive the cell
+                    dataGrid.ScrollIntoView(rowContainer, dataGrid.Columns[column]);
+
+                    cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
+                }
+
+                return cell;
+            }
+
+            return null;
         }
     }
 }

@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BinaryTreeSearch\BinaryTreeSearch.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="BinaryTreeSearch">
       <HintPath>..\bin\Debug\BinaryTreeSearch.dll</HintPath>
     </Reference>

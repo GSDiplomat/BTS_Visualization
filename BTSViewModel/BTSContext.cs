@@ -7,6 +7,7 @@ namespace BTSViewModel
         private BinaryTree _binaryTree;
         private BTSCommand _addNodeCommand;
         private BTSCommand _removeNodeCommand;
+        private BinaryTreeNode _currentNode = new BinaryTreeNode(null, 0);
 
         public BTSContext()
         {
@@ -21,7 +22,20 @@ namespace BTSViewModel
                 if (value != _binaryTree)
                 {
                     _binaryTree = value;
-                    OnPropertyChanged("BinaryTree");
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public BinaryTreeNode CurrentNode
+        {
+            get => _currentNode;
+            set
+            {
+                if (value != _currentNode)
+                {
+                    _currentNode = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -30,9 +44,9 @@ namespace BTSViewModel
                                             (_addNodeCommand = new BTSCommand(
                                                 obj =>
                                                 {
-                                                    BinaryTree.AddNode((int)obj);
+                                                    BinaryTree.AddNode(((BinaryTreeNode)obj).NodeValue);
                                                 },
-                                                obj => obj != null
+                                                obj => true
                                             ));
 
 
