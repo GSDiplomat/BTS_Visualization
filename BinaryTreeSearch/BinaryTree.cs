@@ -8,6 +8,19 @@ namespace BinaryTreeSearch
         private int _nodeCount;
         private int _maxDepth;
 
+        public int MaxDepth
+        {
+            get => GetMaxDepth(_root);
+            set
+            {
+                if (value != _maxDepth)
+                {
+                    _maxDepth = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public BinaryTreeNode Root
         {
             get => _root;
@@ -22,20 +35,6 @@ namespace BinaryTreeSearch
         }
 
         public int NodeCount => _nodeCount;
-
-        public int MaxDepth
-        {
-            get => GetMaxDepth(_root);
-            set
-            {
-                if (value != _maxDepth)
-                {
-                    _maxDepth = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
 
         public void AddNode(int nodeValue)
         {
@@ -172,13 +171,12 @@ namespace BinaryTreeSearch
             return nodeSearch;
         }
 
-
         public int GetMaxDepth()
         {
             return Math.Max(GetMaxDepth(_root.LeftNode), GetMaxDepth(_root.RightNode)) + 1;
         }
 
-        public int GetMaxDepth(BinaryTreeNode node)
+        private int GetMaxDepth(BinaryTreeNode node)
         {
             if (node == null)
                 return 0;

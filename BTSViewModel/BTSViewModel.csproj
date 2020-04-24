@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryTreeEnvelope.cs" />
     <Compile Include="BTSCommand.cs" />
     <Compile Include="BTSContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

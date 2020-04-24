@@ -17,16 +17,11 @@ namespace BinaryTreeSearch
         public BinaryTreeNode(BinaryTreeNode parentNode, int nodeValue)
         {
             _nodeValue = nodeValue;
-            _parentNode = parentNode;
-
-            Debug.WriteLine("BinaryTreeNode");
+            ParentNode = parentNode;
         }
 
-        public BinaryTreeNode ParentNode
-        {
-            get => _parentNode;
-            set => value = _parentNode;
-        }
+        //TODO: Сделать свойством
+        public BinaryTreeNode ParentNode;
 
         public int NodeValue
         {
@@ -66,6 +61,21 @@ namespace BinaryTreeSearch
                 }
             }
         }
+        public int GetNodeDepth()
+        {
+            BinaryTreeNode binaryTreeNode = this;
+            int counter = 1;
+
+            while (binaryTreeNode.ParentNode != null)
+            {
+                binaryTreeNode = binaryTreeNode.ParentNode;
+
+                counter++;
+            }
+
+            return counter;
+        }
+
 
         public override string ToString() => NodeValue.ToString();
 

@@ -2,29 +2,42 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace BTSViewModel
 {
-    public class BTSContext : NotifyPropertyBase
+    public class BTSContext : INotifyPropertyChanged
     {
-        private BinaryTree _binaryTree;
+        private BinaryTreeEnvelope _binaryTreeEnvelope = new BinaryTreeEnvelope();
+        private BinaryTree _binaryTree = new BinaryTree();
         private BTSCommand _addNodeCommand;
         private BTSCommand _removeNodeCommand;
+        private BTSCommand _clearTreeCommand;
         private BinaryTreeNode _currentNode = new BinaryTreeNode(null, 0);
+
+        public ChangeListener PersonChangeListener;
 
         public BTSContext()
         {
-            _binaryTree = new BinaryTree();
+            PersonChangeListener = ChangeListener.Create(BinaryTree);
 
-            var personChangeListener = ChangeListener.Create(_binaryTree);
-
-            personChangeListener.PropertyChanged += new PropertyChangedEventHandler(value_PropertyChanged);
+            PersonChangeListener.PropertyChanged += OnInnerPropertyChanged;
         }
 
-        private void value_PropertyChanged(object sender, PropertyChangedEventArgs e)
+
+        public BinaryTreeEnvelope BinaryTreeEnvelope
         {
-            Debug.WriteLine("Changed Property: " + e.PropertyName);
+            get => _binaryTreeEnvelope;
+            set
+            {
+                if (value != _binaryTreeEnvelope)
+                {
+                    _binaryTreeEnvelope = value;
+                    ChangingProperties();
+                }
+            }
         }
+
 
         public BinaryTree BinaryTree
         {
@@ -34,10 +47,11 @@ namespace BTSViewModel
                 if (value != _binaryTree)
                 {
                     _binaryTree = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged("BinaryTree");
                 }
             }
         }
+
 
         public BinaryTreeNode CurrentNode
         {
@@ -47,10 +61,12 @@ namespace BTSViewModel
                 if (value != _currentNode)
                 {
                     _currentNode = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged("CurrentNode");
                 }
             }
         }
+
+        public int MyProperty { get; set; }
 
         public BTSCommand AddNodeCommand => _addNodeCommand ??
                                             (_addNodeCommand = new BTSCommand(
@@ -68,5 +84,28 @@ namespace BTSViewModel
                                                    obj => obj != null
                                                ));
 
+        public BTSCommand ClearTreeCommand => _clearTreeCommand ??
+                                       (_clearTreeCommand = new BTSCommand(
+                                           obj => BinaryTree = new BinaryTree()
+                                       ));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ChangingProperties()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BinaryTreeEnvelope"));
+        }
+
+        protected virtual void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            BinaryTreeEnvelope = new BinaryTreeEnvelope(_binaryTree, name);
+        }
+
+        protected void OnInnerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BinaryTree"));
+            BinaryTreeEnvelope = new BinaryTreeEnvelope(_binaryTree, e.PropertyName);
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace BinaryTreeSearch
         #region *** Private Methods ***
         private void Subscribe()
         {
-            _value.PropertyChanged += new PropertyChangedEventHandler(Value_PropertyChanged);
+            _value.PropertyChanged += new PropertyChangedEventHandler(ValuePropertyChanged);
 
             var query =
                 from property
@@ -66,7 +66,7 @@ namespace BinaryTreeSearch
                 // Unsubscribe if existing
                 if (_innerListeners[propertyName] != null)
                 {
-                    _innerListeners[propertyName].PropertyChanged -= new PropertyChangedEventHandler(Inner_PropertyChanged);
+                    _innerListeners[propertyName].PropertyChanged -= new PropertyChangedEventHandler(InnerPropertyChanged);
 
                     // Should unsubscribe all events
                     _innerListeners[propertyName].Dispose();
@@ -89,7 +89,7 @@ namespace BinaryTreeSearch
                     }
 
                     if (_innerListeners[propertyName] != null)
-                        _innerListeners[propertyName].PropertyChanged += new PropertyChangedEventHandler(Inner_PropertyChanged);
+                        _innerListeners[propertyName].PropertyChanged += new PropertyChangedEventHandler(InnerPropertyChanged);
                 }
             }
         }
@@ -97,12 +97,12 @@ namespace BinaryTreeSearch
 
 
         #region *** Event Handler ***
-        void Inner_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void InnerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
         }
 
-        void Value_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void ValuePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // First, reset inner on change, if required...
             ResetInnerListener(e.PropertyName);
@@ -126,7 +126,7 @@ namespace BinaryTreeSearch
         /// </summary>
         protected override void Unsubscribe()
         {
-            _value.PropertyChanged -= new PropertyChangedEventHandler(Value_PropertyChanged);
+            _value.PropertyChanged -= new PropertyChangedEventHandler(ValuePropertyChanged);
 
             foreach (var binderKey in _innerListeners.Keys)
             {

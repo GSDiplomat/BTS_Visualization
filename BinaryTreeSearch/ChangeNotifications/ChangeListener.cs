@@ -52,18 +52,14 @@ namespace BinaryTreeSearch
         #region *** Factory ***
         public static ChangeListener Create(INotifyPropertyChanged value)
         {
+            if (value == null)
+                throw new ArgumentNullException("value");
+
             return Create(value, null);
         }
 
-        public static ChangeListener Create(INotifyPropertyChanged value, string propertyName)
-        {
-            if (value is INotifyPropertyChanged)
-            {
-                return new InnerChangeListener(value as INotifyPropertyChanged, propertyName);
-            }
-            else
-                return null;
-        }
+        public static ChangeListener Create(INotifyPropertyChanged value, string propertyName) => new InnerChangeListener(value as INotifyPropertyChanged, propertyName);
+            
         #endregion
     }
 }
