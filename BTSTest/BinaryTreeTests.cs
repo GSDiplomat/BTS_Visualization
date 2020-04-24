@@ -12,19 +12,28 @@ namespace BinaryTreeSearch.Tests
         string CorrectSequenceNodes;
         string SequenceNodes;
 
-        List<int> Items = new List<int>();
+        List<int> Items = new List<int> { 9, 6, 17, 3, 8, 16, 20, 1, 4, 7, 12, 19, 21, 2, 5, 11, 14, 18, 10, 13, 15 };
         List<int> Sorted = new List<int>();
+
+        BinaryTree BinaryTree;
 
         [SetUp]
         public void Setup()
         {
+            BinaryTree = new BinaryTree();
+
+            foreach (var item in Items)
+            {
+                BinaryTree.AddNode(item);
+            }
+        }
+
+        [Test]
+        public void TraversalInorder_DefaultBTS_AscendingSequence()
+        {
+            // arrange
             CorrectSequenceNodes = string.Empty;
             SequenceNodes = string.Empty;
-
-            for (int i = 0; i < 100; i++)
-            {
-                Items.Add(rnd.Next(0, 1000));
-            }
 
             Sorted.Clear();
             Sorted.AddRange(Items.OrderBy(item => item).ToArray());
@@ -33,49 +42,87 @@ namespace BinaryTreeSearch.Tests
             {
                 CorrectSequenceNodes += " " + item;
             }
-        }
-
-        [Test]
-        public void TraversalInorderTest()
-        {
-            // arrange
-            var binaryTree = new BinaryTree();
-
-            foreach (var item in Items)
-            {
-                binaryTree.AddNode(item);
-            }
 
             // act
-            SequenceNodes = binaryTree.Traversal(eTraversalType.Inorder);
+            SequenceNodes = BinaryTree.Traversal(eTraversalType.Inorder);
 
             // assert
             Assert.AreEqual(CorrectSequenceNodes, SequenceNodes);
         }
 
         [Test]
-        public void GetMaxDepthTest()
+        public void GetMaxDepth_DefaultBTS_6Returned()
         {
             // arrange
-            var binaryTree = new BinaryTree();
-
-            binaryTree.AddNode(100);
-            binaryTree.AddNode(150);
-            binaryTree.AddNode(200);
-            binaryTree.AddNode(170);
-            binaryTree.AddNode(210);
-            binaryTree.AddNode(70);
-            binaryTree.AddNode(50);
-            binaryTree.AddNode(90);
-            binaryTree.AddNode(10);
-            binaryTree.AddNode(55);
-            binaryTree.AddNode(60);
-            binaryTree.AddNode(58);
-            binaryTree.AddNode(65);
-
             int expectDepth = 6;
+
             // act
-            int maxDepth = binaryTree.GetMaxDepth();
+            int maxDepth = BinaryTree.GetMaxDepth();
+
+            // assert
+            Assert.AreEqual(expectDepth, maxDepth);
+        }
+
+        [Test]
+        public void GetNodeDepth_BTNode14_5Returned()
+        {
+            // arrange
+            int expectDepth = 5;
+
+            // act
+            int maxDepth = BinaryTree.FindNode(14).GetNodeDepth();
+
+            // assert
+            Assert.AreEqual(expectDepth, maxDepth);
+        }
+
+        [Test]
+        public void GetNodeDepth_BTNode9_1Returned()
+        {
+            // arrange
+            int expectDepth = 1;
+
+            // act
+            int maxDepth = BinaryTree.FindNode(9).GetNodeDepth();
+
+            // assert
+            Assert.AreEqual(expectDepth, maxDepth);
+        }
+
+        [Test]
+        public void GetNodeDepth_BTNode3_3Returned()
+        {
+            // arrange
+            int expectDepth = 3;
+
+            // act
+            int maxDepth = BinaryTree.FindNode(3).GetNodeDepth();
+
+            // assert
+            Assert.AreEqual(expectDepth, maxDepth);
+        }
+
+        [Test]
+        public void GetNodeDepth_BTNode21_4Returned()
+        {
+            // arrange
+            int expectDepth = 4;
+
+            // act
+            int maxDepth = BinaryTree.FindNode(21).GetNodeDepth();
+
+            // assert
+            Assert.AreEqual(expectDepth, maxDepth);
+        }
+
+        [Test]
+        public void GetNodeDepth_BTNode10_6Returned()
+        {
+            // arrange
+            int expectDepth = 6;
+
+            // act
+            int maxDepth = BinaryTree.FindNode(10).GetNodeDepth();
 
             // assert
             Assert.AreEqual(expectDepth, maxDepth);
