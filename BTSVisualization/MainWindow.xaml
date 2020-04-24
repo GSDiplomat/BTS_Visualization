@@ -18,9 +18,10 @@
                 <TextBlock Text="Введите число для узла дерева" Margin="2" />
                 <TextBox Margin="2" Width="70" HorizontalAlignment="Left" Text="{Binding CurrentNode.NodeValue}"/>
                 <Button Content="Добавить" Margin="2" Width="70" HorizontalAlignment="Left" Command="{Binding AddNodeCommand}" CommandParameter="{Binding CurrentNode}"/>
+                <Button Content="Очистить дерево" Margin="2" HorizontalAlignment="Left"/>
             </StackPanel>
         </GroupBox>
 
-        <local:BinaryTreeView Grid.Column="1" BinaryTreeData="{Binding BinaryTree.MaxDepth}"></local:BinaryTreeView>
+        <local:BinaryTreeView Grid.Column="1" BinaryTreeData="{Binding BinaryTreeEnvelope}"></local:BinaryTreeView>
     </Grid>
 </Window>

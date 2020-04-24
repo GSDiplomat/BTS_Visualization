@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BTSVisualization.BinaryTreeControl.BTSNodeView"
+﻿<UserControl x:Class="BTSVisualization.BTSNodeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,8 +9,8 @@
 
     <Viewbox>
         <Grid Width="20" Height="20">
-            <Ellipse Stroke="Black" Fill="LightGray"/>
-            <TextBlock HorizontalAlignment="Center" Text="0" TextAlignment="Center" VerticalAlignment="Center"/>
+            <Ellipse Stroke="Black" Fill="LightGray" StrokeThickness="0.5"/>
+            <TextBlock HorizontalAlignment="Center" Text="{Binding}" TextAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Viewbox>
 </UserControl>
