@@ -59,11 +59,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BinaryTreeControl\BTSArrowView.xaml">
+    <Page Include="BinaryTreeControl\BTSNodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BinaryTreeControl\BTSNodeView.xaml">
+    <Page Include="BinaryTreeControl\PairNodeLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,13 +79,14 @@
     <Compile Include="BinaryTreeControl\BinaryTreeView.xaml.cs">
       <DependentUpon>BinaryTreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BinaryTreeControl\BTSArrowView.xaml.cs">
-      <DependentUpon>BTSArrowView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BinaryTreeControl\BTSNodeView.xaml.cs">
       <DependentUpon>BTSNodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BinaryTreeControl\ChangedProperty.cs" />
+    <Compile Include="BinaryTreeControl\LayoutListener.cs" />
+    <Compile Include="BinaryTreeControl\PairNodeLine.xaml.cs">
+      <DependentUpon>PairNodeLine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -23,6 +23,8 @@ namespace BTSVisualization
     /// </summary>
     public partial class BinaryTreeView : UserControl
     {
+        private static BinaryTreeDrawer TreeDrawer = new BinaryTreeDrawer();
+
         public BinaryTreeView()
         {
             InitializeComponent();
@@ -31,23 +33,28 @@ namespace BTSVisualization
         public BinaryTreeEnvelope BinaryTreeData
         {
             get { return (BinaryTreeEnvelope)GetValue(BinaryTreeProperty); }
-            set 
-            { 
-                SetValue(BinaryTreeProperty, value);
-            }
+            set { SetValue(BinaryTreeProperty, value); }
+        }
+
+        public BinaryTreeNode SelectedNode
+        {
+            get { return (BinaryTreeNode)GetValue(SelectedNodeProperty); }
+            set { SetValue(SelectedNodeProperty, value); }
         }
 
         public static readonly DependencyProperty BinaryTreeProperty =
-            DependencyProperty.Register("BinaryTreeData", typeof(BinaryTreeEnvelope), typeof(BinaryTreeView), new PropertyMetadata(new BinaryTreeEnvelope(), BinaryTreeChanged));
+            DependencyProperty.Register("BinaryTreeData", typeof(BinaryTreeEnvelope), typeof(BinaryTreeView), new PropertyMetadata(new BinaryTreeEnvelope(), OnBinaryTreeChanged));
+        public static readonly DependencyProperty SelectedNodeProperty =
+            DependencyProperty.Register("SelectedNode", typeof(BinaryTreeNode), typeof(BinaryTreeView), new PropertyMetadata(new BinaryTreeNode(null, 0), OnSelectedNodeChanged));
 
 
-        private static void BinaryTreeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnBinaryTreeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var binaryTreeEnvelope = (BinaryTreeEnvelope)e.NewValue;
             ChangedProperty changedProperty;
             BinaryTreeNode binaryTreeNode;
 
-            BinaryTreeDrawer.BinaryTreeGrid = (sender as BinaryTreeView).TreeGrid;
+            TreeDrawer.BinaryTreeGrid = (sender as BinaryTreeView).TreeGrid;
 
             if (binaryTreeEnvelope.BinaryTree != null)
             {
@@ -55,22 +62,52 @@ namespace BTSVisualization
 
                 if (changedProperty.PropertyName == "MaxDepth")
                 {
-                    BinaryTreeDrawer.ChangeGrid(ChangedProperty.OldMaxDepth, changedProperty.NewMaxDepth);
+                    TreeDrawer.GridRowCounter = changedProperty.NewMaxDepth;
                     ChangedProperty.OldMaxDepth = changedProperty.NewMaxDepth;
                 }
-                else if(changedProperty.PropertyName == "BinaryTree")
+                else if (changedProperty.PropertyName == "BinaryTree")
                 {
-                    BinaryTreeDrawer.ClearTree();
+                    TreeDrawer.ClearTree();
                 }
-                else
+                else if (changedProperty.PropertyName.Contains("Root") && !changedProperty.PropertyName.Contains("NodeValue"))
                 {
                     binaryTreeNode = ChangedProperty.NodeReferences[changedProperty.PropertyName];
-
-                    BinaryTreeDrawer.AddNode(binaryTreeNode);
+                            TreeDrawer.AddNode(binaryTreeNode);
                 }
             }
         }
 
+        static void OnSelectedNodeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
 
+        }
+
+        private void BTSNodeViewSelect(object sender, MouseButtonEventArgs e)
+        {
+            var oldSelectedNode = TreeDrawer.BinaryTreeGrid.Children.Cast<BTSNodeView>().FirstOrDefault(item => item.IsSelected == true);
+
+            if (oldSelectedNode != null)
+            {
+                NodeFocus(oldSelectedNode);
+            }
+
+            SelectedNode = (sender as BTSNodeView).Node;
+
+            NodeFocus(sender as BTSNodeView);
+        }
+
+        private void NodeFocus(BTSNodeView nodeView)
+        {
+            if (nodeView.IsSelected)
+            {
+                nodeView.IsSelected = false;
+                nodeView.ellipseNode.Stroke = new SolidColorBrush(Colors.Black);
+            }
+            else
+            {
+                nodeView.IsSelected = true;
+                nodeView.ellipseNode.Stroke = new SolidColorBrush(Colors.Red);
+            }
+        }
     }
 }

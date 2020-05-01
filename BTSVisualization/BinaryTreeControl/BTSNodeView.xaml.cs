@@ -1,18 +1,8 @@
 ﻿using BinaryTreeSearch;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace BTSVisualization
 {
@@ -21,13 +11,15 @@ namespace BTSVisualization
     /// </summary>
     public partial class BTSNodeView : UserControl
     {
-        BinaryTreeNode Node;
+        private BTSNodeView _parentNodeView;
+
+        public PairNodeLine NodeViewLine;
+        public bool IsSelected = false;
         public BTSNodeView()
         {
             InitializeComponent();
-
-            //Visibility = Visibility.Collapsed;
         }
+
         public BTSNodeView(BinaryTreeNode node) : this()
         {
             Node = node;
@@ -35,6 +27,10 @@ namespace BTSVisualization
             DataContext = Node;
         }
 
-        public static explicit operator BinaryTreeNode(BTSNodeView bTSNodeView) => bTSNodeView.Node;
+        public BinaryTreeNode Node { get; }
+
+        public BTSNodeView ParentNodeView => _parentNodeView ?? 
+            (_parentNodeView = (BTSNodeView)(Parent as Grid).Children.Cast<UIElement>().FirstOrDefault(item => item is BTSNodeView && (item as BTSNodeView).Node == Node.ParentNode));
+
     }
 }

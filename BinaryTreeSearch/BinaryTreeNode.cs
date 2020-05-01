@@ -61,24 +61,46 @@ namespace BinaryTreeSearch
                 }
             }
         }
-        public int GetNodeDepth()
+
+        public string NodePath => GetNodePath();
+
+        public int GetNodeDepth() => NodePath.Split('.').Length;
+
+        private string GetNodePath()
         {
             BinaryTreeNode binaryTreeNode = this;
-            int counter = 1;
+
+            string reverseNodePath = string.Empty;
+            string nodePath;
 
             while (binaryTreeNode.ParentNode != null)
             {
-                binaryTreeNode = binaryTreeNode.ParentNode;
+                if (binaryTreeNode > binaryTreeNode.ParentNode)
+                    reverseNodePath += "RightNode.";
+                else
+                    reverseNodePath += "LeftNode.";
 
-                counter++;
+                binaryTreeNode = binaryTreeNode.ParentNode;
             }
 
-            return counter;
+            reverseNodePath += "Root";
+
+            var splitRnPath = reverseNodePath.Split('.').Reverse();
+
+            nodePath = splitRnPath.First();
+
+            foreach (var splitPath in splitRnPath.Skip(1))
+            {
+                nodePath += "." + splitPath;
+            }
+
+            return nodePath;
         }
 
 
         public override string ToString() => NodeValue.ToString();
 
+        #region IComparable
         public static bool operator <(BinaryTreeNode firstNode, BinaryTreeNode secondNode)
         {
             return (firstNode.CompareTo(secondNode) < 0);
@@ -117,5 +139,6 @@ namespace BinaryTreeSearch
 
             return 0;
         }
+        #endregion
     }
 }

@@ -45,8 +45,6 @@ namespace BTSVisualization
         {
             var nodeChain = fullPropertyName.Split(new char[] { '.' }, 2);
 
-            if (fullPropertyName == "Root")
-                return node;
             if (nodeChain.Length == 1)
                 return (BinaryTreeNode)typeof(BinaryTreeNode).GetProperty(nodeChain.Last()).GetValue(node);
 
@@ -55,28 +53,5 @@ namespace BTSVisualization
             return GetNode((BinaryTreeNode)typeof(BinaryTreeNode).GetProperty(nodeName).GetValue(node), nodeChain.Last());
         }
 
-        //public struct ChangedPropertyArgs
-        //{
-        //    public string PropertyName;
-        //    public object OldValue;
-        //    public object NewValue;
-
-        //    public ChangedPropertyArgs(ChangedProperty changedProperty)
-        //    {
-        //        PropertyName = changedProperty.PropertyName;
-
-        //        //if (PropertyName == "MaxDepth" || PropertyName == "Root")
-        //        //{
-        //        //    OldValue = typeof(BinaryTree).GetProperty(PropertyName).GetValue(OldBinaryTree);
-        //        //    NewValue = typeof(BinaryTree).GetProperty(PropertyName).GetValue(changedProperty.NewBinaryTree);
-        //        //}
-        //        //else
-        //        //{
-        //        //    var s = changedProperty.GetNode(OldBinaryTree);
-        //        //    OldValue = typeof(BinaryTreeNode).GetField("ParentNode").GetValue(changedProperty.GetNode(OldBinaryTree));
-        //        //    NewValue = typeof(BinaryTreeNode).GetField("ParentNode").GetValue(changedProperty.GetNode(changedProperty.NewBinaryTree));
-        //        //}
-        //    }
-        //}
     }
 }

@@ -5,23 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BTSVisualization"
         mc:Ignorable="d"
-        Title="Бинарное дерево поиска" Height="750" Width="1000" 
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Бинарное дерево поиска" Height="900" Width="1300" 
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <GroupBox Header="Добавление узла">
+        <GroupBox Header="Добавление узла" Grid.Row="0">
             <StackPanel>
                 <TextBlock Text="Введите число для узла дерева" Margin="2" />
                 <TextBox Margin="2" Width="70" HorizontalAlignment="Left" Text="{Binding CurrentNode.NodeValue}"/>
                 <Button Content="Добавить" Margin="2" Width="70" HorizontalAlignment="Left" Command="{Binding AddNodeCommand}" CommandParameter="{Binding CurrentNode}"/>
-                <Button Content="Очистить дерево" Margin="2" HorizontalAlignment="Left"/>
+                <!--Command="{Binding ClearTreeCommand}"-->
             </StackPanel>
         </GroupBox>
 
-        <local:BinaryTreeView Grid.Column="1" BinaryTreeData="{Binding BinaryTreeEnvelope}"></local:BinaryTreeView>
+
+        <GroupBox Header="Выделенный узел" Grid.Row="1">
+            <StackPanel>
+                <TextBlock>
+                        <Run>Значение узла: </Run>
+                        <Run Text="{Binding CurrentNode.NodeValue}"></Run>
+                </TextBlock>
+                <TextBlock>
+                        <Run>Родительский узел: </Run>
+                        <Run Text="{Binding CurrentNode.ParentNode}"></Run>
+                </TextBlock>
+                <Button Content="Удалить" Margin="2" Width="70" HorizontalAlignment="Center" Command="{Binding RemoveNodeCommand}" CommandParameter="{Binding CurrentNode}"/>
+            </StackPanel>
+        </GroupBox>
+
+
+        <Button Content="Очистить дерево" Grid.Column="0" Grid.Row="2" Margin="2" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+
+        <local:BinaryTreeView Background="LightGray" Grid.RowSpan="3" Grid.Column="1" BinaryTreeData="{Binding BinaryTreeEnvelope}" SelectedNode="{Binding CurrentNode, Mode=TwoWay}"></local:BinaryTreeView>
     </Grid>
 </Window>

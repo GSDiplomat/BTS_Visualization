@@ -1,5 +1,6 @@
 ﻿using BinaryTreeSearch;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -21,9 +22,8 @@ namespace BTSViewModel
         {
             PersonChangeListener = ChangeListener.Create(BinaryTree);
 
-            PersonChangeListener.PropertyChanged += OnInnerPropertyChanged;
+            PersonChangeListener.PropertyChanged += OnBTSInnerPropertyChanged;
         }
-
 
         public BinaryTreeEnvelope BinaryTreeEnvelope
         {
@@ -33,7 +33,7 @@ namespace BTSViewModel
                 if (value != _binaryTreeEnvelope)
                 {
                     _binaryTreeEnvelope = value;
-                    ChangingProperties();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace BTSViewModel
                 if (value != _binaryTree)
                 {
                     _binaryTree = value;
-                    OnPropertyChanged("BinaryTree");
+                    OnBTSPropertyChanged("BinaryTree");
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace BTSViewModel
                 if (value != _currentNode)
                 {
                     _currentNode = value;
-                    OnPropertyChanged("CurrentNode");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -72,15 +72,32 @@ namespace BTSViewModel
                                             (_addNodeCommand = new BTSCommand(
                                                 obj =>
                                                 {
+#if DEBUG
+                                                    if (((BinaryTreeNode)obj).NodeValue == 0)
+                                                    {
+                                                        List<int> Items = new List<int> { 9, 6, 17, 3, 8, 16, 20, 1, 4, 7, 12, 19, 21, 2, 5, 11, 14, 18, 10, 13, 15 };
+                                                        foreach (var item in Items)
+                                                        {
+                                                            BinaryTree.AddNode(item);
+                                                        }
+                                                    }
+                                                    else
+#endif
                                                     BinaryTree.AddNode(((BinaryTreeNode)obj).NodeValue);
+
                                                 },
                                                 obj => true
                                             ));
 
 
+
+
         public BTSCommand RemoveNodeCommand => _removeNodeCommand ??
                                                (_removeNodeCommand = new BTSCommand(
-                                                   obj => BinaryTree.RemoveNode(obj as BinaryTreeNode),
+                                                   obj =>
+                                                   {
+                                                       BinaryTree.RemoveNode(obj as BinaryTreeNode);
+                                                   },
                                                    obj => obj != null
                                                ));
 
@@ -91,18 +108,18 @@ namespace BTSViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void ChangingProperties()
+        private void OnPropertyChanged([CallerMemberName] string propertName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BinaryTreeEnvelope"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertName));
         }
 
-        protected virtual void OnPropertyChanged(string name)
+        protected virtual void OnBTSPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             BinaryTreeEnvelope = new BinaryTreeEnvelope(_binaryTree, name);
         }
 
-        protected void OnInnerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected void OnBTSInnerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BinaryTree"));
             BinaryTreeEnvelope = new BinaryTreeEnvelope(_binaryTree, e.PropertyName);

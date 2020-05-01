@@ -5,25 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BTSVisualization"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500" >
+             d:DesignHeight="500" d:DesignWidth="500">
     <UserControl.Resources>
         <Style TargetType="RowDefinition">
             <Setter Property="Height" Value="50"/>
         </Style>
+        <Style TargetType="local:BTSNodeView">
+            <EventSetter Event="MouseLeftButtonUp" Handler="BTSNodeViewSelect"/>
+        </Style>
+        <Style TargetType="Line">
+            <Setter Property="Stroke" Value="Red"/>
+        </Style>
     </UserControl.Resources>
-    
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid x:Name="TreeGrid" ShowGridLines="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
 
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid x:Name="TreeGrid" Panel.ZIndex ="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
         </Grid>
     </ScrollViewer>
 </UserControl>
