@@ -60,12 +60,9 @@ namespace BTSVisualization
             {
                 changedProperty = new ChangedProperty(binaryTreeEnvelope.BinaryTree, binaryTreeEnvelope.PropertyName);
 
-                if (changedProperty.PropertyName == "MaxDepth")
-                {
-                    TreeDrawer.GridRowCounter = changedProperty.NewMaxDepth;
-                    ChangedProperty.OldMaxDepth = changedProperty.NewMaxDepth;
-                }
-                else if (changedProperty.PropertyName == "BinaryTree")
+                TreeDrawer.GridRowCounter = changedProperty.NewMaxDepth;
+
+                if (changedProperty.PropertyName == "BinaryTree")
                 {
                     TreeDrawer.ClearTree();
                 }

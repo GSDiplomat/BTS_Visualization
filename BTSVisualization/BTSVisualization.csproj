@@ -63,6 +63,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="BinaryTreeControl\NodeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BinaryTreeControl\PairNodeLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +88,10 @@
     </Compile>
     <Compile Include="BinaryTreeControl\ChangedProperty.cs" />
     <Compile Include="BinaryTreeControl\LayoutListener.cs" />
+    <Compile Include="BinaryTreeControl\LayoutNodeListener.cs" />
+    <Compile Include="BinaryTreeControl\NodeView.xaml.cs">
+      <DependentUpon>NodeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BinaryTreeControl\PairNodeLine.xaml.cs">
       <DependentUpon>PairNodeLine.xaml</DependentUpon>
     </Compile>

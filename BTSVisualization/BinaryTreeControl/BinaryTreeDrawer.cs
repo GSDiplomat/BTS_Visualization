@@ -11,14 +11,14 @@ namespace BTSVisualization
     public class BinaryTreeDrawer
     {
         private int _gridRowCounter = 1;
-        private BTSNodeView _rootView;
+        private NodeView _rootView;
 
         public Grid BinaryTreeGrid;
         public int RootColumn;
 
         private Dictionary<int, int> DepthDelta = new Dictionary<int, int>();
 
-        public BTSNodeView RootView => _rootView ?? (_rootView = BinaryTreeGrid.Children.Cast<BTSNodeView>().FirstOrDefault(item => Grid.GetRow(item) == 0));
+        public NodeView RootView => _rootView ?? (_rootView = BinaryTreeGrid.Children.Cast<NodeView>().FirstOrDefault(item => Grid.GetRow(item) == 0));
 
         #region MaxDepthChanged
         public int GridRowCounter
@@ -50,7 +50,11 @@ namespace BTSVisualization
                 }
 
                 if (value != _gridRowCounter)
+                {
                     _gridRowCounter = value;
+
+                    RootView.SetCoordinates((BinaryTreeGrid.ColumnDefinitions.Count) / 2);
+                }
             }
         }
         #endregion
@@ -58,23 +62,23 @@ namespace BTSVisualization
         #region NodeAdded
         public void AddNode(BinaryTreeNode node)
         {
-            BTSNodeView nodeView = new BTSNodeView(node);
-            BinaryTreeGrid.Children.Add(nodeView);
+            NodeView nodeView = new NodeView(node);
+
+            if (node.ParentNode != null)
+                nodeView.ParentNode = GetNodeView(node.ParentNode);
 
 
             if (node.ParentNode == null)
             {
-                Grid.SetRow(nodeView, 0);
-                Grid.SetColumn(nodeView, 1);
-
+                nodeView.SetCoordinates(1);
                 DepthDelta.Add(1, 0);
             }
             else
             {
-                SetNodeCoordinates(nodeView);
-
                 DrawLine(nodeView);
             }
+
+            nodeView.AddToGrid(BinaryTreeGrid);
         }
         #endregion
 
@@ -159,14 +163,13 @@ namespace BTSVisualization
         #endregion
 
         #region Line drawing
-        private void DrawLine(BTSNodeView nodeView)
+        private void DrawLine(NodeView nodeView)
         {
             PairNodeLine line = new PairNodeLine();
 
-            line.From = nodeView.ParentNodeView;
+            line.From = nodeView.ParentNode;
             line.To = nodeView;
 
-            nodeView.NodeViewLine = line;
             (BinaryTreeGrid.Parent as Grid).Children.Add(line);
         }
 
@@ -185,7 +188,7 @@ namespace BTSVisualization
 
         private IEnumerable<UIElement> GetNodeGridRow(int depth) => BinaryTreeGrid.Children.Cast<UIElement>().Where(item => item is BTSNodeView && Grid.GetRow(item) == depth);
 
-        private BTSNodeView GetNodeView(BinaryTreeNode node) => (BTSNodeView)BinaryTreeGrid.Children.Cast<UIElement>().FirstOrDefault(item => item is BTSNodeView && (item as BTSNodeView).Node == node);
+        private NodeView GetNodeView(BinaryTreeNode node) => (NodeView)BinaryTreeGrid.Children.Cast<UIElement>().FirstOrDefault(item => item is NodeView && (item as NodeView).TreeNode == node);
         #endregion
     }
 }
